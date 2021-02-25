@@ -1,60 +1,63 @@
+//CODING ASSIGNMENT 7
+//C++ CASTING
+//A program to demonstrate various types of casting in c++
+
 #include<iostream>
 #include<exception>
 #include<string>
 using namespace std;
-struct myStruct
+struct Student
 {
-	int icat;
-	int ihat;
-	//char crat;
-	bool bbat;
+	int regnum;
+	int rank;
+	bool pass;
 };
 class Int
 {
-	int x;
+	int varx;
 public:
-	Int(int x=0):x{x}
+	Int(int varx=0):varx{varx}
 	{
 		cout << "\nConversion constructor";
 	}
 	operator string()
 	{
 		cout << "\nConversion operator";
-		return to_string(x);
+		return to_string(varx);
 	}
 };
-class Base
+class Animal
 {
 	virtual void print()
 	{
-		cout << "Base" << endl;
+		cout << "Animal" << endl;
 	}
 };
-class Derived : private Base
+class Herbivores : private Animal
 {
 	void print()
 	{
-		cout << "Derived" << endl;
+		cout << "Herbivores" << endl;
 	}
 };
-class Derived1 :public Base 
+class Carnivores :public Animal 
 {
 	void print()
 	{
-		cout << "Derived1" << endl;
+		cout << "Carnivores" << endl;
 	}
 };
-class Derived2 : public Base
+class Ominvores : public Animal
 {
 	void print()
 	{
-		cout << "Derived2" << endl;
+		cout << "Ominvores" << endl;
 	}
 };
 class Alpha
 {
 public:
-	void display()
+	void displayAlpha()
 	{
 		cout << "Hello!!This is Alpha" << endl;
 	}
@@ -62,68 +65,68 @@ public:
 class Beta
 {
 public:
-	void printBeta()
+	void displayBeta()
 	{
 		cout << "Hello!!This is Beta" << endl;
 	}
 };
 
-void someAPI(int* aa)
+void someAPI(int* pvar)
 {
-	int k = 16;
-	cout << "inside someAPI: k+x=" << k + (*aa) << endl;
+	int vark = 16;
+	cout << "inside someAPI:" << vark + (*pvar) << endl;
 }
 
 int main()
 {
-	float f = 3.5;
-	int a;
+	float varf = 3.5;
+	int vara;
 	
 	//c-style casting
 	//a = f;
 	
 	//static-cast--1
-	a = static_cast<int>(f);
-	cout << "\na=" << a;
+	vara = static_cast<int>(varf);
+	cout << "\nvara=" << vara;
 
 	//static-cast--2
 	Int obj(3);
 	//string str1 = obj;//using conversion  operator
 	//obj = 20;//using conversion constructor
-	string str1 = static_cast<string> (obj);
+	string str = static_cast<string> (obj);
 	obj = static_cast<Int>(35);
-	cout << "\nstr1= " << str1<<endl;
+	cout << "\nstr= " << str<<endl;
 
 	//error:static_cast--3
-	//char c;
-	//int *ip=(int *c)&c; //allowed
-	//int *ip=static_cast<int*>(&c); //not allowed
+	//char ch;
+    //int *ip=(int *ch)&ch; //allowed
+	//int *ip=static_cast<int*>(&ch); //not allowed
 
 	//static_cast--4
-	Derived d;
-	//Base* bp = (Base*)&d; //allowed
-	//Base *bp=static_cast<Base*>(&d);//not allowed
+	Herbivores elephant;
+	//Animal* animalptr = (Animal*)&elephant; //allowed
+	//Animal *animalptr=static_cast<Animal*>(&elephant);//not allowed
 
 
-	//static_cast--5
-	int i = 10;
-	void* v = static_cast<void*>(&i);
-	int* ip1 = static_cast<int*>(v);
+	//Ramtatic_cast--5
+	int vari = 10;
+	void* vptr = static_cast<void*>(&vari);
+	int* iptr = static_cast<int*>(vptr);
 
 	//static_cast--6
-	Derived1 d1;
-	Derived2 d2;
-	Base* bp1 = static_cast<Base*>(&d1);
-	Base* bp2 = static_cast<Base*>(&d2);
+	Carnivores lion;
+	Ominvores dog;
+	Animal* animalptr1 = static_cast<Animal*>(&lion);
+	Animal* animalptr2 = static_cast<Animal*>(&dog);
 
-	//Derived1 *dp1=static_cast<Base*>(bp2);
-	//Derived2 *dp2=static_cast<Base*>(bp1);
+	//Carnivores *lionptr=static_cast<Animal*>(animalptr2);
+	//Ominvores *dogptr=static_cast<Animal*>(animalptr1);
 
 	//dynamic_cast
-	Base* bp3 = dynamic_cast<Base*>(&d1);
-	Derived2* dp2 = dynamic_cast<Derived2*> (bp3);
-	//Derived1* dp1=dynamic_cast<Derived1*> (bp3);
-	if (dp2 == NULL)
+	Animal* animalptr3 = dynamic_cast<Animal*>(&lion);
+	Ominvores* dogptr = dynamic_cast<Ominvores*> (animalptr3);
+	//Carnivores* lionptr=dynamic_cast<Carnivores*> (animalptr3);
+	if (dogptr == NULL)
 		cout << "NULL: Wrong down cast"<<endl;
 	else
 		cout << "NOT NULL: Corrrect down cast" << endl;
@@ -132,30 +135,30 @@ int main()
 	Alpha* alp = new Alpha();
 	Beta* bet = new Beta();
 	Alpha* newalp = reinterpret_cast<Alpha*>(bet);
-	newalp->display();
+	newalp->displayAlpha();
 
 	//reinterpret_cast--2
-	myStruct s;
-	s.icat = 5; s.ihat = 10; s.bbat = true;
-	int* ptr = reinterpret_cast<int*>(&s);
-	cout << "s.icat= "<<*ptr<<endl;
-	ptr++;
-	cout << "s.ihat= " << *ptr << endl;
-	cout << "s.bbat= " << *(reinterpret_cast<bool*>(++ptr))<<endl;
+	Student ram;
+	ram.regnum = 5; ram.rank = 10; ram.pass = true;
+	int* ramptr = reinterpret_cast<int*>(&ram);
+	cout << "ram.regnum= "<<*ramptr<<endl;
+	ramptr++;
+	cout << "ram.rank= " << *ramptr << endl;
+	cout << "ram.pass= " << *(reinterpret_cast<bool*>(++ramptr))<<endl;
 
 	//const_cast--1
-	const int x = 10;
-	int y = 15;
-	const int* px = &x;
-	const int* py = &y;
-	//int* z = const_cast<int*>(px);
-	//*z = 15;  //undefined behaviour
-	int* z1 = const_cast<int*>(py);
-	*z1 = 30;
-	cout << "x= " << x << " y= " << y << " *z1= " << *z1 << endl;
+	const int constnum = 10;
+	int varnum = 15;
+	const int* cptrnum = &constnum;
+	const int* cptr = &varnum;
+	//int* varz = const_cast<int*>(cptrnum);
+	//*varz = 15;  //undefined behaviour
+	int* varb = const_cast<int*>(cptr);
+	*varb = 30;
+	cout << "constnum= " << constnum << " varnum= " << varnum << " *varb= " << *varb << endl;
 
 	//const_cast--2
-	someAPI(const_cast<int*>(px));
+	someAPI(const_cast<int*>(cptrnum));
 
 	return 0;
 }
